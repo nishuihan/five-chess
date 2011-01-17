@@ -1,0 +1,71 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BORD	main.h	17;"	d
+BUFFER_SIZE	client.c	14;"	d	file:
+BUFFER_SIZE	server.c	13;"	d	file:
+C_HEIGHT	main.h	13;"	d
+C_WIDTH	main.h	12;"	d
+H_NUM	main.h	7;"	d
+SERVER_PORT	client.c	13;"	d	file:
+SERVER_PORT	server.c	12;"	d	file:
+SPACE	main.h	10;"	d
+STARTX	main.h	8;"	d
+STARTY	main.h	9;"	d
+T___	main.h	15;"	d
+V_NUM	main.h	6;"	d
+X___	main.h	16;"	d
+_MAIN_H	main.h	2;"	d
+board	mouse_op.c	/^char board[C_WIDTH * C_HEIGHT];$/;"	v
+bpp	main.h	/^    int bpp;$/;"	m	struct:__anon1
+buffer	client.c	/^int buffer[BUFFER_SIZE];$/;"	v
+buffer	server.c	/^int buffer[BUFFER_SIZE];$/;"	v
+c	client.c	/^int client_op.c(void)$/;"	f
+check_all	mouse_op.c	/^int check_all(void)$/;"	f
+check_five	mouse_op.c	/^int check_five(int x, int y)$/;"	f
+chess_count	mouse_op.c	/^int chess_count(int x, int y)$/;"	f
+choice_color	board.c	/^int choice_color(int x, int y)$/;"	f
+create_fb	1.c	/^void create_fb(void)$/;"	f
+create_fb	main.c	/^void create_fb(void)$/;"	f
+cursor_pixel	mouse_op.c	/^static u32_t cursor_pixel[C_WIDTH * C_HEIGHT] = {$/;"	v	file:
+dx	main.h	/^    int dx;$/;"	m	struct:__anon2
+dy	main.h	/^    int dy;$/;"	m	struct:__anon2
+dz	main.h	/^    int dz;$/;"	m	struct:__anon2
+fb_backgound	board.c	/^void fb_backgound(int x1, int y1, int x2, int y2, u32_t color)$/;"	f
+fb_board	board.c	/^void fb_board(u32_t color)$/;"	f
+fb_cricle	board.c	/^void fb_cricle(int x0, int y0, int r, u32_t color)$/;"	f
+fb_cricle_line	board.c	/^void fb_cricle_line(int x0, int y0, int r, u32_t color)$/;"	f
+fb_line	basic_shape.c	/^void fb_line(int x1, int y1, int x2, int y2, u32_t color)$/;"	f
+fb_men	main.h	/^    void *fb_men;$/;"	m	struct:__anon1
+fb_one_piexl	main.c	/^int fb_one_piexl(int x, int y, u32_t color)$/;"	f
+fb_v	1.c	/^v_fb_info fb_v;$/;"	v
+fb_v	main.c	/^ v_fb_info fb_v;$/;"	v
+get_m_info	mouse_op.c	/^int get_m_info(int fd, m_event *mevent)$/;"	f
+global_color	mouse_op.c	/^u32_t global_color = 0x00ffffff;$/;"	v
+h	main.h	/^    int h;$/;"	m	struct:__anon1
+m_event	main.h	/^}m_event;$/;"	t	typeref:struct:__anon2
+main	1.c	/^int main(void)$/;"	f
+main	main.c	/^int main(void)$/;"	f
+mode	main.h	/^    int mode;$/;"	m	struct:__anon2
+mouse_cursor	mouse_op.c	/^void mouse_cursor(int x, int y)$/;"	f
+mouse_doing	mouse_op.c	/^int mouse_doing(void)$/;"	f
+n_x	mouse_op.c	/^char n_x[4] = {0, 1, 1, 1,};$/;"	v
+n_y	mouse_op.c	/^char n_y[4] = {1, 1, 0, -1};$/;"	v
+para	makefile	/^para = -Wall$/;"	m
+print_color	mouse_op.c	/^void print_color(void)$/;"	f
+restore_shape	mouse_op.c	/^void restore_shape(int x, int y)$/;"	f
+save_shape	mouse_op.c	/^void save_shape(int x, int y)$/;"	f
+scan_point	board.c	/^int scan_point(int x, int y)$/;"	f
+scan_screen	main.c	/^void scan_screen(void)$/;"	f
+scr	makefile	/^scr = main.c basic_shape.c board.c mouse_op.c$/;"	m
+server_op	server.c	/^int server_op(void)  $/;"	f
+shape	mouse_op.c	/^static u32_t shape[C_WIDTH * C_HEIGHT];$/;"	v	file:
+swap	basic_shape.c	/^void swap(int *a, int *b)$/;"	f
+u32_t	main.h	/^typedef unsigned int u32_t;$/;"	t
+u8_t	main.h	/^typedef unsigned char u8_t;$/;"	t
+v_fb_info	main.h	/^}v_fb_info;$/;"	t	typeref:struct:__anon1
+w	main.h	/^    int w;$/;"	m	struct:__anon1
+who	mouse_op.c	/^char who = 1;$/;"	v

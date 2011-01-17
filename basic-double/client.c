@@ -12,24 +12,26 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#include <sys/select.h>
+
 #include "main.h"
 
 
-#define SERVER_PORT 20001
-//#define SERVER_PORT 31313 
+//#define SERVER_PORT 20001
+#define SERVER_PORT 31313 
 message_t buffer;
 int fd;
 
 //int main(int argc, const char *argv[])
 int client_op(void)
 {
-    int  n = 0,len;
     int client_socket;
-    char client_ip[] = "10.1.14.57";
+    char client_ip[] = "10.1.14.41";
     //char client_ip[] = "10.1.14.68";
     struct sockaddr_in server;
-    char flag_s = 0;
+    //char flag_s = 0;
     socklen_t server_len;
+    fd_set input_fd;
 
     fd = open("/dev/input/mice", O_RDWR|O_NONBLOCK);
     if(fd < 0)
@@ -60,37 +62,51 @@ int client_op(void)
     #endif
     while(1)
     {
+        FD_ZERO(&input_fd);
+        FD_SET(fd, &input_fd);
+        FD_SET(client_socket, &input_fd);
 
-        global_color = 0x00ffffff;
-        who = 1;
-        mouse_doing();
-
-        if(flag == 1)
+        if((select(client_socket+ 1, &input_fd, NULL, NULL, NULL)) < 0)
         {
-            flag = 0;
-            //mouse_doing();
-            buffer.x = global_x;
-            buffer.y = global_y;
-            printf("%d  %d\n", global_x, global_y);
-            server_len = sizeof(server);
-            sendto(client_socket, &buffer, sizeof(buffer), 0, (struct sockaddr *)&server, server_len);
-            flag_s = 1;
+            perror("select");
+            continue;
         }
+        if(FD_ISSET(fd, &input_fd))
+        {
 
-       if(flag_s == 1)
-       {
+            global_color = 0x00ffffff;
+            who = 1;
+            mouse_doing();
+            if(flag == 1)
+            {
+                //global_color = 0x00ffffff;
+                    //who = 1;
+                flag = 0;
+                //mouse_doing();
+                buffer.x = global_x;
+                buffer.y = global_y;
+                printf("%d  %d\n", global_x, global_y);
+                server_len = sizeof(server);
+                sendto(client_socket, &buffer, sizeof(buffer), 0, (struct sockaddr *)&server, server_len);
+                //flag_s = 1;
+            }
+        }
+        if(FD_ISSET(client_socket, &input_fd))
+        {
+            printf("you re\n");
             server_len = sizeof(server);
-            n = recvfrom(client_socket, &buffer, sizeof(buffer), 0, (struct sockaddr *)&server, &server_len);
+            recvfrom(client_socket, &buffer, sizeof(buffer), 0, (struct sockaddr *)&server, &server_len);
             global_x = buffer.x;
             global_y = buffer.y;
-                global_color = 0x00000000;
-                who = 2;
-                //scan_point(global_x + STARTX, global_y + STARTY);
+            global_color = 0x00000000;
+            who = 2;
+
             scan_point(STARTX + global_x*SPACE, STARTY + global_y*SPACE);
-            flag_s = 0;
+            //flag_s = 0;
             board[global_x + global_y*H_NUM] = who;
             check_all();
         }
+       
 
     }
     close(client_socket);

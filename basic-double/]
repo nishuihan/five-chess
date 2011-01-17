@@ -15,8 +15,8 @@
 #include "main.h"
 
 
-#define SERVER_PORT 20001
-//#define SERVER_PORT 31313 
+//#define SERVER_PORT 20001
+#define SERVER_PORT 31313 
 message_t buffer;
 int fd;
 
@@ -25,10 +25,9 @@ int client_op(void)
 {
     int  n = 0,len;
     int client_socket;
-    //char client_ip[] = "10.1.14.211";
-    char client_ip[] = "10.1.14.68";
+    char client_ip[] = "10.1.14.211";
+    //char client_ip[] = "10.1.14.68";
     struct sockaddr_in server;
-    char flag_s = 0;
     socklen_t server_len;
 
     fd = open("/dev/input/mice", O_RDWR|O_NONBLOCK);
@@ -52,16 +51,11 @@ int client_op(void)
     server.sin_addr.s_addr = inet_addr(client_ip);
     //server.sin_addr.s_addr = client_ip;
     flag = 0;
-    #if 0
-    buffer.x = 0;
-    buffer.y = 0;
-    server_len = sizeof(server);
-    sendto(client_socket, &buffer, sizeof(buffer), 0, (struct sockaddr *)&server, server_len);
-    #endif
     while(1)
     {
-        mouse_doing();
+            mouse_doing();
 
+        
         if(flag == 1)
         {
             flag = 0;
@@ -70,18 +64,13 @@ int client_op(void)
             buffer.y = global_y;
             server_len = sizeof(server);
             sendto(client_socket, &buffer, sizeof(buffer), 0, (struct sockaddr *)&server, server_len);
-            flag_s = 1;
         }
-
-        if(flag_s == 1)
-        {
-            server_len = sizeof(server);
-            n = recvfrom(client_socket, &buffer, sizeof(buffer), 0, (struct sockaddr *)&server, &server_len);
+        server_len = sizeof(server);
+        n = recvfrom(client_socket, &buffer, sizeof(buffer), 0, (struct sockaddr *)&server, &server_len);
             global_x = buffer.x;
             global_y = buffer.y;
-            scan_point(STARTX + global_x*SPACE, STARTY + global_y*SPACE);
-            flag_s = 0;
-        }
+            //scan_point(global_x + STARTX, global_y + STARTY);
+            scan_point(global_x, global_y);
 
     }
     close(client_socket);
