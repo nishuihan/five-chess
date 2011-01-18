@@ -14,12 +14,7 @@ char who = 1;
 char n_x[4] = {0, 1, 1, 1,};
 char n_y[4] = {1, 1, 0, -1};
 u32_t global_color = 0x00ffffff;
-int global_x = 512, global_y = 384;
-//int global_x, global_y;
 //char color_code[2] = {0x00ffffff, 0x00000000};
-char flag;
-int mx = 512;
-int my = 384;
 static u32_t cursor_pixel[C_WIDTH * C_HEIGHT] = {
     BORD, T___, T___, T___, T___, T___, T___, T___, T___, T___,
     BORD, BORD, T___, T___, T___, T___, T___, T___, T___, T___,
@@ -87,8 +82,6 @@ int chess_count(int x, int y)
         i++;
     if((y - STARTY) % SPACE > (SPACE/2))
         j++;
-    global_x = i;
-    global_y = j;
     board[i + j*H_NUM] = who;
 
     return 0;
@@ -160,22 +153,21 @@ int get_m_info(int fd, m_event *mevent)
 int mouse_doing(void)
 {
     m_event mevent;
-    //int fd;
-    //int mx = 512;
-    //int my = 384;
-    char victory = -1;
+    int fd;
+    int mx = 512;
+    int my = 384;
 
-    //fd = open("/dev/input/mice", O_RDWR|O_NONBLOCK);
-    //if(fd < 0)
-    //{
-    //perror("open");
-    //exit(1);
-    //}
+    fd = open("/dev/input/mice", O_RDWR|O_NONBLOCK);
+    if(fd < 0)
+    {
+        perror("open");
+        exit(1);
+    }
 
-    //print_color();
-    //mouse_cursor(mx, my);
-    //while(1)
-    //{
+    print_color();
+    mouse_cursor(mx, my);
+    while(1)
+    {
         if(get_m_info(fd, &mevent) > 0)
         {
             restore_shape(mx, my);
@@ -198,119 +190,25 @@ int mouse_doing(void)
             {
                 case 1: 
                     restore_shape(mx, my);
-                    if (scan_point(mx, my) == 0)
+                    if (scan_point(mx, my) == 0);
                     {
-                        //if(global_color == 0x00ffffff)
-                        //{
-                        //global_color = 0x00000000;
-                        //who = 1;
-                        //}
-                        //else
-                        //{
-                        //global_color = 0x00ffffff;
-                        //who = 2;
-                        //}
-                        flag = 1;
                         chess_count(mx, my);
-                        //global_x = mx - STARTX;
-                        //global_y = my - STARTY;
-                        //global_x = mx;
-                        //global_y = my;
-                        victory = check_all();
+                        check_all();
+                        //if(global_color == 0x00ffffff)
+                        //global_color = 0x00000000;
+                        //else
+                        //global_color = 0x00ffffff;
+                        mouse_cursor(mx, my);
                     }
-                    mouse_cursor(mx, my);
                     break;
                 case 2: break;
                 case 4: break;
                 default:break;
             }
-            #if 0
-            if(victory == 1)
-            {
-                printf("play%d won!\n", who);
-                printf("contniue ? y/n\n");
-                if(getchar() == 'n')
-                    return 0;
-                else
-                {
-                    memset((u8_t *)fb_v.fb_men, 0, fb_v.h * fb_v.w *fb_v.bpp/8);
-                    memset(board, 0, H_NUM * V_NUM);
-                    fb_backgound(0, 0, fb_v.w - 1, fb_v.h - 1, 0x00996600);
-                    fb_backgound(STARTX, STARTY, STARTX + (V_NUM - 1) * SPACE, STARTY + (H_NUM - 1) * SPACE, 0x00ffcc33);
-                    fb_board(0x000000ff);
-                    print_color();
-                    mouse_cursor(512, 384);
-                    global_color = 0xffffffff;
-                    who = 1;
-                    victory = -1;
-                    mx = 512;
-                    my = 384;
-                    mouse_cursor(mx, my);
-                }
-                getchar();
-            }
-            #endif
-        }
+                  }
         usleep(1000);
-        //}
-    return 0;
-}
-int mouse_moving(void)
-{
-    m_event mevent;
-
-    if(get_m_info(fd, &mevent) > 0)
-    {
-        restore_shape(mx, my);
-        mx += mevent.dx;
-        my += mevent.dy;
-
-        mx = ((mx >= 0) ? mx : 0);
-        my = ((my >= 0) ? my : 0);
-        if(mx >= (fb_v.w-C_WIDTH))
-        {
-           mx = (fb_v.w-C_WIDTH);
-        }
-        if(my >= (fb_v.h-C_HEIGHT))
-        {
-           my = (fb_v.h-C_HEIGHT);
-        }
-
-        mouse_cursor(mx, my);
     }
     return 0;
 }
-#if 0
-        switch(mevent.mode)
-        {
-            case 1: 
-                restore_shape(mx, my);
-                if (scan_point(mx, my) == 0)
-                {
-                    //if(global_color == 0x00ffffff)
-                    //{
-                    //global_color = 0x00000000;
-                    //who = 1;
-                    //}
-                    //else
-                    //{
-                    //global_color = 0x00ffffff;
-                    //who = 2;
-                    //}
-                    flag = 1;
-                    chess_count(mx, my);
-                    //global_x = mx - STARTX;
-                    //global_y = my - STARTY;
-                    //global_x = mx;
-                    //global_y = my;
-                    victory = check_all();
-                }
-                mouse_cursor(mx, my);
-                break;
-            case 2: break;
-            case 4: break;
-            default:break;
-        }
-#endif
 
 

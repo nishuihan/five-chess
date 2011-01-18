@@ -26,10 +26,10 @@ int fd;
 int client_op(void)
 {
     int client_socket;
-    char client_ip[] = "10.1.14.41";
+    char client_ip[] = "10.1.14.211";
     //char client_ip[] = "10.1.14.68";
     struct sockaddr_in server;
-    //char flag_s = 0;
+    char flag_s = 0;
     socklen_t server_len;
     fd_set input_fd;
 
@@ -76,7 +76,13 @@ int client_op(void)
 
             global_color = 0x00ffffff;
             who = 1;
+            //mouse_moving();
+            //if(flag_s == 0)
+            //{
+            //printf("error\n");
             mouse_doing();
+            //printf("111\n");
+            //}
             if(flag == 1)
             {
                 //global_color = 0x00ffffff;
@@ -93,7 +99,6 @@ int client_op(void)
         }
         if(FD_ISSET(client_socket, &input_fd))
         {
-            printf("you re\n");
             server_len = sizeof(server);
             recvfrom(client_socket, &buffer, sizeof(buffer), 0, (struct sockaddr *)&server, &server_len);
             global_x = buffer.x;
@@ -102,7 +107,7 @@ int client_op(void)
             who = 2;
 
             scan_point(STARTX + global_x*SPACE, STARTY + global_y*SPACE);
-            //flag_s = 0;
+            flag_s = 0;
             board[global_x + global_y*H_NUM] = who;
             check_all();
         }

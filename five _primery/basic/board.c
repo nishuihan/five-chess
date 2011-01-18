@@ -67,7 +67,6 @@ int choice_color(int x, int y)
 int scan_point(int x, int y)
 {
     int xtmp = 0, ytmp = 0;
-    #if 0
     if((x<STARTX) || (x>(STARTX + (V_NUM-1)*SPACE)))
     {
         choice_color(x, y);
@@ -78,9 +77,6 @@ int scan_point(int x, int y)
         choice_color(x, y);
         return 1;
     }
-    #endif
-    //if(board[global_x + global_y * H_NUM] != 0)
-    //return 0;
     xtmp = (x - STARTX) % SPACE;
     ytmp = (y - STARTY) % SPACE;
     x += ((xtmp >= SPACE/2) ? (SPACE - xtmp) : -xtmp);
